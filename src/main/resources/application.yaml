@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: CasaAndrade
+  datasource:
+    url: jdbc:postgresql://localhost:${DB_PORT:5432}/${DB_NAME:casa-andrade-db}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:@MolonPedro0110}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+server:
+  port: ${SERVER_PORT:8080}
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 86400000
