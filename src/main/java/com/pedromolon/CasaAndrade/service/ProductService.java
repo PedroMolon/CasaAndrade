@@ -70,11 +70,11 @@ public class ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
 
-        if (Boolean.TRUE.equals(product.getActive()) && product.getQuantity() != null && product.getQuantity() <= 0) {
+        if (Boolean.TRUE.equals(product.getActive()) && product.getQuantity() != null) {
             product.setActive(false);
             productRepository.save(product);
         } else {
-            throw new IllegalStateException("Product cannot be disable. It must be active and have 0 stock");
+            throw new IllegalStateException("Product cannot be disable. It must be active");
         }
     }
 
