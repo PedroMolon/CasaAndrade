@@ -15,7 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findByActiveTrue(Pageable pageable);
 
-    @Query("SELECT p FROM Product WHERE p.quantity <= p.min_quantity AND p.active = true")
+    @Query("SELECT p FROM Product p WHERE p.quantity <= p.minQuantity AND p.active = true")
     List<Product> findLowQuantity();
 
 }
