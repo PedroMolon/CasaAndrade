@@ -2,12 +2,12 @@ package com.pedromolon.CasaAndrade.service;
 
 import com.pedromolon.CasaAndrade.dto.request.ProductRequest;
 import com.pedromolon.CasaAndrade.dto.response.ProductResponse;
+import com.pedromolon.CasaAndrade.exception.ResourceNotFoundException;
 import com.pedromolon.CasaAndrade.mapper.ProductMapper;
 import com.pedromolon.CasaAndrade.model.Category;
 import com.pedromolon.CasaAndrade.model.Product;
 import com.pedromolon.CasaAndrade.repository.CategoryRepository;
 import com.pedromolon.CasaAndrade.repository.ProductRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class ProductService {
     @Transactional
     public ProductResponse saveNewProduct(ProductRequest request) {
         Category category = categoryRepository.findById(request.categoryId())
-                .orElseThrow(() -> new EntityNotFoundException("Category not found with this id: " + request.categoryId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found with this id: " + request.categoryId()));
 
         Product product = productMapper.toEntity(request);
         product.setCategory(category);
@@ -41,7 +41,7 @@ public class ProductService {
     public ProductResponse getProductById(Long id) {
         return productRepository.findById(id)
                 .map(productMapper::toResponse)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
     }
 
     @Transactional(readOnly = true)
@@ -52,7 +52,7 @@ public class ProductService {
     @Transactional
     public ProductResponse updateProduct(Long id, ProductRequest request) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
 
         product.setName(request.name());
         product.setDescription(request.description());
@@ -60,7 +60,7 @@ public class ProductService {
         product.setQuantity(request.quantity());
         product.setMinQuantity(request.minQuantity());
         product.setImgUrl(request.imgUrl());
-        product.setCategory(categoryRepository.findById(request.categoryId()).orElseThrow(() -> new EntityNotFoundException("Category not found with this id")));
+        product.setCategory(categoryRepository.findById(request.categoryId()).orElseThrow(() -> new ResourceNotFoundException("Category not found with this id")));
 
         return productMapper.toResponse(productRepository.save(product));
     }
@@ -68,7 +68,7 @@ public class ProductService {
     @Transactional
     public void disableProduct(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
 
         if (Boolean.TRUE.equals(product.getActive()) && product.getQuantity() != null && product.getQuantity() <= 0) {
             product.setActive(false);
