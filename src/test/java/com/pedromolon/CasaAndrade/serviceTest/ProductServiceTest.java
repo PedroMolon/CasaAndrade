@@ -17,11 +17,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
-import static java.util.Optional.empty;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
@@ -61,7 +65,7 @@ public class ProductServiceTest {
 
     @Nested
     @DisplayName("Save Product Test")
-    class SaveNewProduct {
+    class SaveProductTest {
 
         @Test
         @DisplayName("Should save product successfully")
@@ -92,8 +96,29 @@ public class ProductServiceTest {
     }
 
     @Nested
+    @DisplayName("Get All Products Test")
+    class GetAllProductsTest {
+
+        @Test
+        @DisplayName("Should return paginated products successfully")
+        void shouldReturnPaginatedProductsSuccessfully() {
+            Pageable pageable = PageRequest.of(0, 10);
+            Page<Product> productPage = new PageImpl<>(List.of(product), pageable, 1);
+
+            when(productRepository.findByActiveTrue(pageable)).thenReturn(productPage);
+            when(productMapper.toResponse(product)).thenReturn(response);
+
+            Page<ProductResponse> result = productService.getAllProducts(pageable);
+
+            assertThat(result.getContent()).hasSize(1);
+            assertThat(result.getContent().getFirst()).isEqualTo(response);
+            verify(productRepository, times(1)).findByActiveTrue(pageable);
+        }
+    }
+
+    @Nested
     @DisplayName("Get Product Test")
-    class GerProductService {
+    class GetProductTest {
 
         @Test
         @DisplayName("Should return product by id successfully")
@@ -168,7 +193,7 @@ public class ProductServiceTest {
 
     @Nested
     @DisplayName("Disable Product Test")
-    class DisableProductClass {
+    class DisableProductTest {
 
         @Test
         @DisplayName("Should disable product successfully")
