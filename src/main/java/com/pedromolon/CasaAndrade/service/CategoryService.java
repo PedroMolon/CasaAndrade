@@ -62,7 +62,7 @@ public class CategoryService {
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void deleteCategory(Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with this id: " + id));
 
