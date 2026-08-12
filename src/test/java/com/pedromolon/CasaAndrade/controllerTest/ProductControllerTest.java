@@ -76,7 +76,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    void deveBuscarProdutoPorIdERetornar200() throws Exception {
+    void shouldGetProductByIdAndReturn200() throws Exception {
         when(productService.getProductById(1L)).thenReturn(response);
 
         mockMvc.perform(get("/api/v1/products/{id}", 1L))
@@ -85,7 +85,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    void deveRetornar404QuandoProdutoNaoExiste() throws Exception {
+    void shouldReturn404WhenProductDoesNotExist() throws Exception {
         when(productService.getProductById(99L))
                 .thenThrow(new ResourceNotFoundException("Product not found with id: 99"));
 
@@ -95,7 +95,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    void deveListarProdutosPaginados() throws Exception {
+    void shouldListPaginatedProducts() throws Exception {
         Page<ProductResponse> page = new PageImpl<>(List.of(response), PageRequest.of(0, 10), 1);
         when(productService.getAllProducts(any())).thenReturn(page);
 
@@ -105,7 +105,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    void deveAtualizarProdutoERetornar200() throws Exception {
+    void shouldUpdateProductAndReturn200() throws Exception {
         when(productService.updateProduct(eq(1L), any())).thenReturn(response);
 
         mockMvc.perform(put("/api/v1/products/{id}", 1L)
@@ -116,13 +116,13 @@ public class ProductControllerTest {
     }
 
     @Test
-    void deveDesativarProdutoERetornar204() throws Exception {
+    void shouldDisableProductAndReturn204() throws Exception {
         mockMvc.perform(delete("/api/v1/products/{id}", 1L))
                 .andExpect(status().isNoContent());
     }
 
     @Test
-    void deveRetornar404AoDesativarProdutoInexistente() throws Exception {
+    void shouldReturn404WhenDisablingNonExistentProduct() throws Exception {
         org.mockito.Mockito.doThrow(new ResourceNotFoundException("Product not found with id: 99"))
                 .when(productService).disableProduct(99L);
 
