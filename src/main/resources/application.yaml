@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:${DB_PORT:5432}/${DB_NAME:casa-andrade-db}
     username: ${DB_USER:postgres}
-    password: ${DB_PASSWORD:@MolonPedro0110}
+    password: ${DB_PASSWORD:postgres}
   jpa:
     hibernate:
       ddl-auto: validate
@@ -21,6 +21,6 @@ spring:
 server:
   port: ${SERVER_PORT:8080}
 
-jwt:
-  secret: ${JWT_SECRET}
-  expiration: 86400000
+rsa:
+  private-key: classpath:certs/app.key
+  public-key: classpath:certs/app-pub

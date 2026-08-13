@@ -34,3 +34,7 @@ build/
 
 ### Configs ###
 .env
+
+### Chave RSA ###
+src/main/resources/certs/app.key
+src/main/resources/certs/app.pub
