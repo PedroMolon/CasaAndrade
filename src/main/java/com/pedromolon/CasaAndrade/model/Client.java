@@ -45,7 +45,7 @@ public class Client {
     @OneToMany(mappedBy = "client")
     private List<Sale> sales = new ArrayList<>();
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)

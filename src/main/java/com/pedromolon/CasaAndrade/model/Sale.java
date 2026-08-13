@@ -37,11 +37,16 @@ public class Sale {
     @Column(name = "sale_date", nullable = false)
     private LocalDateTime saleDate;
 
-    @OneToMany(mappedBy = "sale")
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SaleItem> items = new ArrayList<>();
 
     @PrePersist
     void prePersist() {
         this.saleDate = LocalDateTime.now();
+    }
+
+    public void addItem(SaleItem item) {
+        items.add(item);
+        item.setSale(this);
     }
 }
