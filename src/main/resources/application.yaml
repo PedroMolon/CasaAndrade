@@ -24,3 +24,8 @@ server:
 rsa:
   private-key: classpath:certs/app.key
   public-key: classpath:certs/app.pub
+
+admin:
+  seed:
+    email: ${ADMIN_SEED_EMAIL}
+    password: ${ADMIN_SEED_PASSWORD}
