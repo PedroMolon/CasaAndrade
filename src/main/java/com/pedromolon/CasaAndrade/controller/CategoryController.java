@@ -26,7 +26,7 @@ public class CategoryController {
         return ResponseEntity.ok().body(categoryService.getAllCategories());
     }
 
-    @GetMapping("${categoryId}")
+    @GetMapping("/{categoryId}")
     public ResponseEntity<CategoryResponse> getById(@PathVariable Long categoryId) {
         return ResponseEntity.ok().body(categoryService.getCategoryById(categoryId));
     }
@@ -42,12 +42,12 @@ public class CategoryController {
     }
 
     @PutMapping("/{categoryId}")
-    public ResponseEntity<CategoryResponse> update(@PathVariable Long id, @Valid @RequestBody CategoryRequest request) {
-        return ResponseEntity.ok().body(categoryService.updateCategory(id, request));
+    public ResponseEntity<CategoryResponse> update(@PathVariable Long categoryId, @Valid @RequestBody CategoryRequest request) {
+        return ResponseEntity.ok().body(categoryService.updateCategory(categoryId, request));
     }
 
     @DeleteMapping("/{categoryId}")
-    public ResponseEntity<Void> delete(Long categoryId) {
+    public ResponseEntity<Void> delete(@PathVariable Long categoryId) {
         categoryService.deleteCategory(categoryId);
         return ResponseEntity.noContent().build();
     }

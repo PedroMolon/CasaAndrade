@@ -23,4 +23,4 @@ server:
 
 rsa:
   private-key: classpath:certs/app.key
-  public-key: classpath:certs/app-pub
+  public-key: classpath:certs/app.pub
