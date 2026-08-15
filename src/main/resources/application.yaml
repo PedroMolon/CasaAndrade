@@ -27,5 +27,5 @@ rsa:
 
 admin:
   seed:
-    email: ${ADMIN_SEED_EMAIL}
-    password: ${ADMIN_SEED_PASSWORD}
+    email: ${ADMIN_SEED_EMAIL:admin@casaandrade.com}
+    password: ${ADMIN_SEED_PASSWORD:password123}

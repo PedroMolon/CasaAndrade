@@ -17,14 +17,14 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Client {
+public class  Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "persons_type", length = 10, nullable = false)
+    @Column(name = "person_type", length = 10, nullable = false)
     private PersonType personType;
 
     @Column(length = 150, nullable = false)

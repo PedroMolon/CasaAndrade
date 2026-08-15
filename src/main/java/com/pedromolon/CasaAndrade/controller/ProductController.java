@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -23,16 +24,19 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SELLER')")
     public ResponseEntity<ProductResponse> getById(@PathVariable Long productId) {
         return ResponseEntity.ok().body(productService.getProductById(productId));
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'SELLER')")
     public ResponseEntity<Page<ProductResponse>> getAll(Pageable pageable) {
         return ResponseEntity.ok().body(productService.getAllProducts(pageable));
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProductResponse> save(@Valid @RequestBody ProductRequest request) {
         ProductResponse response = productService.saveNewProduct(request);
 
@@ -45,11 +49,13 @@ public class ProductController {
     }
 
     @PutMapping("/{productId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProductResponse> update(@PathVariable Long productId, @Valid @RequestBody ProductRequest request) {
         return ResponseEntity.ok().body(productService.updateProduct(productId, request));
     }
 
     @DeleteMapping("/{productId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> disable(@PathVariable Long productId) {
         productService.disableProduct(productId);
         return ResponseEntity.noContent().build();

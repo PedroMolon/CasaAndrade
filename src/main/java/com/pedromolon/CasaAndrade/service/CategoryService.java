@@ -42,12 +42,11 @@ public class CategoryService {
 
     @Transactional
     public CategoryResponse saveCategory(CategoryRequest request) {
-        if (categoryRepository.findByName(request.name())) {
+        if (categoryRepository.existsByName(request.name())) {
             throw new IllegalStateException("Category already exists");
         }
-
         return categoryMapper.toResponse(
-                categoryRepository.save(categoryMapper.toEntity(request))
+            categoryRepository.save(categoryMapper.toEntity(request))
         );
     }
 

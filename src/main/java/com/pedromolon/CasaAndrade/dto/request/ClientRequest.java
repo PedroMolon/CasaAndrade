@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record ClientRequest(
-        @NotNull(message = "Person type is required") PersonType type,
+        @NotNull(message = "Person type is required") PersonType personType,
         @NotBlank(message = "Name cannot be blank") String name,
         @NotBlank(message = "Document cannot be blank") String document,
         @Email(message = "Email is invalid") String email,
@@ -18,12 +18,12 @@ public record ClientRequest(
         "Document length does not match the person type (CPF or CNPJ)"
     )
     public boolean isDocumentValid() {
-        if (type == null || document == null) {
+        if (personType == null || document == null) {
             return true;
         }
         int length = document.replaceAll("\\D", "").length();
-        return (type == PersonType.PF && length == 11)
-                || (type == PersonType.PJ && length == 14);
+        return (personType == PersonType.PF && length == 11)
+                || (personType == PersonType.PJ && length == 14);
     }
 
 }

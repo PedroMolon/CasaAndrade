@@ -1,6 +1,6 @@
 CREATE TABLE tb_client (
     id BIGSERIAL PRIMARY KEY,
-    persons_type VARCHAR(10) NOT NULL,
+    person_type VARCHAR(10) NOT NULL,
     name VARCHAR(150) NOT NULL,
     document VARCHAR(20) NOT NULL UNIQUE,
     email VARCHAR(150),

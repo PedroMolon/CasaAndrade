@@ -33,7 +33,7 @@ public class AdminSeeder implements CommandLineRunner {
     private String adminPassword;
 
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws Exception{
         if (userRepository.existsByEmail(adminEmail)) {
             log.info("Admin user already exists, skipping seed");
             return;

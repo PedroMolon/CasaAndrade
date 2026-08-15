@@ -6,7 +6,7 @@ import lombok.Builder;
 @Builder
 public record ClientResponse(
         Long id,
-        PersonType type,
+        PersonType personType,
         String name,
         String document,
         String email,

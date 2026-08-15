@@ -53,7 +53,7 @@ public class CategoryServiceTest {
         @Test
         @DisplayName("Should save category successfully")
         void shouldSaveCategorySuccessfully() {
-            when(categoryRepository.findByName("Materiais")).thenReturn(false);
+            when(categoryRepository.existsByName("Materiais")).thenReturn(false);
             when(categoryMapper.toEntity(request)).thenReturn(category);
             when(categoryRepository.save(category)).thenReturn(category);
             when(categoryMapper.toResponse(category)).thenReturn(response);
@@ -67,7 +67,7 @@ public class CategoryServiceTest {
         @Test
         @DisplayName("Should throw exception when category name already exists")
         void shouldThrowExceptionWhenCategoryNameAlreadyExists() {
-            when(categoryRepository.findByName("Materiais")).thenReturn(true);
+            when(categoryRepository.existsByName("Materiais")).thenReturn(true);
 
             assertThatThrownBy(() -> categoryService.saveCategory(request))
                     .isInstanceOf(IllegalStateException.class)
